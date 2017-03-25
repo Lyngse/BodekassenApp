@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="903d8b8f2e2142eebc9044def3f2ec09" Name="Diagram1" ZoomLevel="86" >
+        <EntityTypeShape EntityType="BodekassenDB.Team" Width="1.5" PointX="3.25" PointY="0.625" />
+        <EntityTypeShape EntityType="BodekassenDB.Player" Width="1.5" PointX="6.125" PointY="0.625" />
+        <EntityTypeShape EntityType="BodekassenDB.FineType" Width="1.5" PointX="3.25" PointY="5.25" />
+        <EntityTypeShape EntityType="BodekassenDB.Fine" Width="1.5" PointX="5.25" PointY="5.125" />
+        <AssociationConnector Association="BodekassenDB.FineFineType" />
+        <EntityTypeShape EntityType="BodekassenDB.Match" Width="1.5" PointX="8.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BodekassenDB.Goal" Width="1.5" PointX="10.375" PointY="0.625" />
+        <AssociationConnector Association="BodekassenDB.PlayerMatch" />
+        <AssociationConnector Association="BodekassenDB.TeamFineType" />
+        <AssociationConnector Association="BodekassenDB.MatchGoal" />
+        <AssociationConnector Association="BodekassenDB.PlayerGoal" />
+        <EntityTypeShape EntityType="BodekassenDB.MOTM" Width="1.5" PointX="10.5" PointY="3" />
+        <EntityTypeShape EntityType="BodekassenDB.Vote" Width="1.5" PointX="10.375" PointY="5.5" />
+        <AssociationConnector Association="BodekassenDB.MatchMOTM" />
+        <AssociationConnector Association="BodekassenDB.PlayerMOTM" />
+        <AssociationConnector Association="BodekassenDB.TeamMatch" />
+        <AssociationConnector Association="BodekassenDB.TeamPlayer" />
+        <AssociationConnector Association="BodekassenDB.PlayerFine" />
+        <AssociationConnector Association="BodekassenDB.PlayerVote" />
+        <AssociationConnector Association="BodekassenDB.MatchVote" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

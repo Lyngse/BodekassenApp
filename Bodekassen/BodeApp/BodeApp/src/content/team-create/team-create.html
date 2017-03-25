@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Create team</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h3>Create team</h3>
+
+  <form novalidate #f="ngForm" (ngSubmit)="onSubmit(model.name, model.email, model.password)">
+    <ion-list>
+      <ion-item class="form-group">
+        <ion-label floating>Club name</ion-label>
+        <ion-input class="form-control" name="name" type="text" [(ngModel)]="model.name"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label floating>Email</ion-label>
+        <ion-input class="form-control" name="email" type="email" [(ngModel)]="model.email"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label floating>Password</ion-label>
+        <ion-input class="form-control" name="password" type="password" [(ngModel)]="model.password"></ion-input>
+      </ion-item>
+    </ion-list>
+    <button ion-button block type="submit">Submit Team</button>
+  </form>
+
+  <pre>{{ f.value | json }}</pre>
+</ion-content>
+

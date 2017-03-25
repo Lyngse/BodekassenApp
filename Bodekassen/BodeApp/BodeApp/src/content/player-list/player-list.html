@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Players</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only color="royal" [navPush]="playerCreate">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h3>Players</h3>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let player of players">
+      <ion-item>
+        <h2>{{ player.Name }}</h2>
+        <p>{{ player.FineAmount }} | {{ player.FineDepositedAmount }}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="profile"></ion-icon>
+          Vis spiller
+        </button>
+        <button ion-button color="secondary">
+          <ion-icon name="edit"></ion-icon>
+          Redigér
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>
+

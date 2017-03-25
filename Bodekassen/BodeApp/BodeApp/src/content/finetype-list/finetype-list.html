@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Fine types</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only color="royal" [navPush]="finetypeCreate">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h3>Fine types</h3>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let finetype of finetypes">
+      <ion-item>
+        <h2>{{ finetype.Name }}</h2>
+        <p>{{ finetype.DefaultAmount }} | {{ player.FineDepositedAmount }}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="edit"></ion-icon>
+          Edit fine type
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

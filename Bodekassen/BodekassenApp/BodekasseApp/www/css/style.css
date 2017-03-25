@@ -1,0 +1,21 @@
+/* Empty. Add your own CSS if you like */
+.item .fineTotal,
+.fineTotal {
+    color: red;
+}
+
+.item .fineDepositedTotal,
+.fineDepositedTotal {
+    color: green;
+}
+
+/* ------------------------------ */
+/* ----- Overview ----- */
+/* ------------------------------ */
+.item-overview {
+    padding: 0;
+}
+
+.fines-overview {
+    text-align: right;
+}

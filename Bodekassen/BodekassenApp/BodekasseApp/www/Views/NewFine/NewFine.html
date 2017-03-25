@@ -1,0 +1,22 @@
+<ion-view view-title="Ny bødetype">
+  <ion-content>    
+    <form name="newFineType" id="newFineType" ng-submit="NewFineType(name, defaultAmount, caseOfBeer, fineDeposit)">
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Navn</span>
+          <input type="text" ng-model="name" placeholder="Navn">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Beløb</span>
+          <input type="text" ng-model="defaultAmount" placeholder="Beløb">
+        </label>
+        <ion-toggle ng-model="caseOfBeer" toggle-class="toggle-positive">"Kasse øl" - bødetype</ion-toggle>
+        <ion-toggle ng-model="fineDeposit" toggle-class="toggle-positive">Indbetaling</ion-toggle>
+      </div>
+      <button type="submit" class="button button-block button-positive">
+        Opret ny bødetype
+      </button>
+    </form>
+    $pristine: {{newFineType.$pristine}}
+  </ion-content>
+</ion-view>

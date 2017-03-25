@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Create Player</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <h3>Create Player</h3>
+
+  <form novalidate #f="ngForm" (ngSubmit)="onSubmit(model.name)">
+    <ion-list>
+      <ion-item class="form-group">
+        <ion-label floating>Player name</ion-label>
+        <ion-input class="form-control" name="name" type="text" [(ngModel)]="model.name"></ion-input>
+      </ion-item>
+    </ion-list>
+    <button ion-button block type="submit">Submit Player</button>
+  </form>
+
+</ion-content>
+

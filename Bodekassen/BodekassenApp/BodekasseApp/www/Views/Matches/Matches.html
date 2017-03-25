@@ -1,0 +1,17 @@
+<ion-view view-title="Kampe">
+  <ion-content>
+    <div class="list">
+      <a ng-repeat="Player in Players" class="item item-overview" ng-href="#/app/player/{{Player.Id}}">
+        <div class="row row-center">
+          <div class="col col-75">
+            <h2>{{ Player.Name }}</h2>
+          </div>
+          <div class="col">
+            <p class="fines-overview fineTotal">{{ Player.FineAmount }}</p>
+            <p class="fines-overview fineDepositedTotal">{{ Player.FineDepositedAmount }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

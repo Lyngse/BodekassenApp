@@ -1,0 +1,16 @@
+<ion-view view-title="Vælg bødetype">
+  <ion-content>
+    <div class="list">
+      <a ng-repeat="FineType in FineTypes" class="item item-overview" href="" ng-click="ChooseFine(FineType.Name, FineType.Id, FineType.DefaultPrice)">
+        <div class="row row-center">
+          <div class="col col-75">
+            <h2>{{ FineType.Name }}</h2>
+          </div>
+          <div class="col">
+            <p class="fines-overview">{{ FineType.DefaultAmount }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

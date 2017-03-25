@@ -1,0 +1,12 @@
+<ion-view view-title="Vælg spiller">
+  <ion-nav-buttons side="primary">
+    <button class="button button-positive" ng-click="doSomething()">
+      Tildel
+    </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-list>
+      <ion-checkbox ng-model="Player.isChecked" ng-repeat="Player in Players">{{Player.Name}}</ion-checkbox>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,746 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BodekassenDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BodekassenDBStoreContainer">
+    <EntitySet Name="TeamSet" EntityType="BodekassenDB.Store.TeamSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PlayerSet" EntityType="BodekassenDB.Store.PlayerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FineTypeSet" EntityType="BodekassenDB.Store.FineTypeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FineSet" EntityType="BodekassenDB.Store.FineSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MatchSet" EntityType="BodekassenDB.Store.MatchSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GoalSet" EntityType="BodekassenDB.Store.GoalSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MOTMSet" EntityType="BodekassenDB.Store.MOTMSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VoteSet" EntityType="BodekassenDB.Store.VoteSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PlayerMatch" EntityType="BodekassenDB.Store.PlayerMatch" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FineFineType" Association="BodekassenDB.Store.FineFineType">
+      <End Role="Fine" EntitySet="FineSet" />
+      <End Role="FineType" EntitySet="FineTypeSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerMatch_Player" Association="BodekassenDB.Store.FK_PlayerMatch_Player">
+      <End Role="Player" EntitySet="PlayerSet" />
+      <End Role="PlayerMatch" EntitySet="PlayerMatch" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerMatch_Match" Association="BodekassenDB.Store.FK_PlayerMatch_Match">
+      <End Role="Match" EntitySet="MatchSet" />
+      <End Role="PlayerMatch" EntitySet="PlayerMatch" />
+    </AssociationSet>
+    <AssociationSet Name="TeamFineType" Association="BodekassenDB.Store.TeamFineType">
+      <End Role="Team" EntitySet="TeamSet" />
+      <End Role="FineType" EntitySet="FineTypeSet" />
+    </AssociationSet>
+    <AssociationSet Name="MatchGoal" Association="BodekassenDB.Store.MatchGoal">
+      <End Role="Match" EntitySet="MatchSet" />
+      <End Role="Goal" EntitySet="GoalSet" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerGoal" Association="BodekassenDB.Store.PlayerGoal">
+      <End Role="Player" EntitySet="PlayerSet" />
+      <End Role="Goal" EntitySet="GoalSet" />
+    </AssociationSet>
+    <AssociationSet Name="MatchMOTM" Association="BodekassenDB.Store.MatchMOTM">
+      <End Role="Match" EntitySet="MatchSet" />
+      <End Role="MOTM" EntitySet="MOTMSet" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerMOTM" Association="BodekassenDB.Store.PlayerMOTM">
+      <End Role="Player" EntitySet="PlayerSet" />
+      <End Role="MOTM" EntitySet="MOTMSet" />
+    </AssociationSet>
+    <AssociationSet Name="TeamMatch" Association="BodekassenDB.Store.TeamMatch">
+      <End Role="Team" EntitySet="TeamSet" />
+      <End Role="Match" EntitySet="MatchSet" />
+    </AssociationSet>
+    <AssociationSet Name="TeamPlayer" Association="BodekassenDB.Store.TeamPlayer">
+      <End Role="Team" EntitySet="TeamSet" />
+      <End Role="Player" EntitySet="PlayerSet" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerFine" Association="BodekassenDB.Store.PlayerFine">
+      <End Role="Player" EntitySet="PlayerSet" />
+      <End Role="Fine" EntitySet="FineSet" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerVote" Association="BodekassenDB.Store.PlayerVote">
+      <End Role="Player" EntitySet="PlayerSet" />
+      <End Role="Vote" EntitySet="VoteSet" />
+    </AssociationSet>
+    <AssociationSet Name="MatchVote" Association="BodekassenDB.Store.MatchVote">
+      <End Role="Match" EntitySet="MatchSet" />
+      <End Role="Vote" EntitySet="VoteSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TeamSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FineAmount" Type="int" Nullable="false" />
+    <Property Name="FineDepositedAmount" Type="int" Nullable="false" />
+    <Property Name="CasesOfBeer" Type="int" Nullable="false" />
+    <Property Name="CasesOfBeerDeposited" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FineAmount" Type="int" Nullable="false" />
+    <Property Name="FineDepositedAmount" Type="int" Nullable="false" />
+    <Property Name="CasesOfBeer" Type="int" Nullable="false" />
+    <Property Name="CasesOfBeerDepostited" Type="int" Nullable="false" />
+    <Property Name="TeamId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FineTypeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DefaultAmount" Type="int" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="IsCaseOfBeer" Type="bit" Nullable="false" />
+    <Property Name="IsDeposit" Type="bit" Nullable="false" />
+    <Property Name="TeamId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FineSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="FineType_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MatchSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OpposingTeam" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="GoalsFor" Type="int" Nullable="false" />
+    <Property Name="GoalsAgainst" Type="int" Nullable="false" />
+    <Property Name="IsHomeMatch" Type="bit" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="TeamId" Type="int" Nullable="false" />
+    <Property Name="MOTM_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GoalSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MatchId" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MOTMSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoteSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="MatchId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerMatch">
+    <Key>
+      <PropertyRef Name="Players_Id" />
+      <PropertyRef Name="Matches_Id" />
+    </Key>
+    <Property Name="Players_Id" Type="int" Nullable="false" />
+    <Property Name="Matches_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FineFineType">
+    <End Role="Fine" Type="BodekassenDB.Store.FineSet" Multiplicity="*" />
+    <End Role="FineType" Type="BodekassenDB.Store.FineTypeSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="FineType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fine">
+        <PropertyRef Name="FineType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamFineType">
+    <End Role="Team" Type="BodekassenDB.Store.TeamSet" Multiplicity="1" />
+    <End Role="FineType" Type="BodekassenDB.Store.FineTypeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FineType">
+        <PropertyRef Name="TeamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MatchGoal">
+    <End Role="Match" Type="BodekassenDB.Store.MatchSet" Multiplicity="1" />
+    <End Role="Goal" Type="BodekassenDB.Store.GoalSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Match">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Goal">
+        <PropertyRef Name="MatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerGoal">
+    <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="1" />
+    <End Role="Goal" Type="BodekassenDB.Store.GoalSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Goal">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MatchMOTM">
+    <End Role="Match" Type="BodekassenDB.Store.MatchSet" Multiplicity="*" />
+    <End Role="MOTM" Type="BodekassenDB.Store.MOTMSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="MOTM">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Match">
+        <PropertyRef Name="MOTM_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerMOTM">
+    <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="1" />
+    <End Role="MOTM" Type="BodekassenDB.Store.MOTMSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MOTM">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamMatch">
+    <End Role="Team" Type="BodekassenDB.Store.TeamSet" Multiplicity="1" />
+    <End Role="Match" Type="BodekassenDB.Store.MatchSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Match">
+        <PropertyRef Name="TeamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamPlayer">
+    <End Role="Team" Type="BodekassenDB.Store.TeamSet" Multiplicity="1" />
+    <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Player">
+        <PropertyRef Name="TeamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerFine">
+    <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="1" />
+    <End Role="Fine" Type="BodekassenDB.Store.FineSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fine">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerVote">
+    <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="1" />
+    <End Role="Vote" Type="BodekassenDB.Store.VoteSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MatchVote">
+    <End Role="Match" Type="BodekassenDB.Store.MatchSet" Multiplicity="1" />
+    <End Role="Vote" Type="BodekassenDB.Store.VoteSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Match">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="MatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerMatch_Player">
+    <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="1" />
+    <End Role="PlayerMatch" Type="BodekassenDB.Store.PlayerMatch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayerMatch">
+        <PropertyRef Name="Players_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerMatch_Match">
+    <End Role="PlayerMatch" Type="BodekassenDB.Store.PlayerMatch" Multiplicity="*" />
+    <End Role="Match" Type="BodekassenDB.Store.MatchSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Match">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayerMatch">
+        <PropertyRef Name="Matches_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BodekassenDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BodekassenDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TeamSet" EntityType="BodekassenDB.Team" />
+          <EntitySet Name="PlayerSet" EntityType="BodekassenDB.Player" />
+          <EntitySet Name="FineTypeSet" EntityType="BodekassenDB.FineType" />
+          <EntitySet Name="FineSet" EntityType="BodekassenDB.Fine" />
+          <AssociationSet Name="FineFineType" Association="BodekassenDB.FineFineType">
+            <End Role="Fine" EntitySet="FineSet" />
+            <End Role="FineType" EntitySet="FineTypeSet" />
+          </AssociationSet>
+          <EntitySet Name="MatchSet" EntityType="BodekassenDB.Match" />
+          <EntitySet Name="GoalSet" EntityType="BodekassenDB.Goal" />
+          <AssociationSet Name="PlayerMatch" Association="BodekassenDB.PlayerMatch">
+            <End Role="Player" EntitySet="PlayerSet" />
+            <End Role="Match" EntitySet="MatchSet" />
+          </AssociationSet>
+          <AssociationSet Name="TeamFineType" Association="BodekassenDB.TeamFineType">
+            <End Role="Team" EntitySet="TeamSet" />
+            <End Role="FineType" EntitySet="FineTypeSet" />
+          </AssociationSet>
+          <AssociationSet Name="MatchGoal" Association="BodekassenDB.MatchGoal">
+            <End Role="Match" EntitySet="MatchSet" />
+            <End Role="Goal" EntitySet="GoalSet" />
+          </AssociationSet>
+          <AssociationSet Name="PlayerGoal" Association="BodekassenDB.PlayerGoal">
+            <End EntitySet="PlayerSet" Role="Player" />
+            <End EntitySet="GoalSet" Role="Goal" />
+          </AssociationSet>
+          <EntitySet Name="MOTMSet" EntityType="BodekassenDB.MOTM" />
+          <EntitySet Name="VoteSet" EntityType="BodekassenDB.Vote" />
+          <AssociationSet Name="MatchMOTM" Association="BodekassenDB.MatchMOTM">
+            <End Role="Match" EntitySet="MatchSet" />
+            <End Role="MOTM" EntitySet="MOTMSet" />
+          </AssociationSet>
+          <AssociationSet Name="PlayerMOTM" Association="BodekassenDB.PlayerMOTM">
+            <End EntitySet="PlayerSet" Role="Player" />
+            <End EntitySet="MOTMSet" Role="MOTM" />
+          </AssociationSet>
+          <AssociationSet Name="TeamMatch" Association="BodekassenDB.TeamMatch">
+            <End Role="Team" EntitySet="TeamSet" />
+            <End Role="Match" EntitySet="MatchSet" />
+          </AssociationSet>
+          <AssociationSet Name="TeamPlayer" Association="BodekassenDB.TeamPlayer">
+            <End Role="Team" EntitySet="TeamSet" />
+            <End Role="Player" EntitySet="PlayerSet" />
+          </AssociationSet>
+          <AssociationSet Name="PlayerFine" Association="BodekassenDB.PlayerFine">
+            <End Role="Player" EntitySet="PlayerSet" />
+            <End Role="Fine" EntitySet="FineSet" />
+          </AssociationSet>
+          <AssociationSet Name="PlayerVote" Association="BodekassenDB.PlayerVote">
+            <End Role="Player" EntitySet="PlayerSet" />
+            <End Role="Vote" EntitySet="VoteSet" />
+          </AssociationSet>
+          <AssociationSet Name="MatchVote" Association="BodekassenDB.MatchVote">
+            <End Role="Match" EntitySet="MatchSet" />
+            <End Role="Vote" EntitySet="VoteSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="FineAmount" Type="Int32" Nullable="false" />
+          <Property Name="FineDepositedAmount" Type="Int32" Nullable="false" />
+          <Property Name="CasesOfBeer" Type="Int32" Nullable="false" />
+          <Property Name="CasesOfBeerDeposited" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FineTypes" Relationship="BodekassenDB.TeamFineType" FromRole="Team" ToRole="FineType" />
+          <NavigationProperty Name="Matches" Relationship="BodekassenDB.TeamMatch" FromRole="Team" ToRole="Match" />
+          <NavigationProperty Name="Players" Relationship="BodekassenDB.TeamPlayer" FromRole="Team" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="FineAmount" Type="Int32" Nullable="false" />
+          <Property Name="FineDepositedAmount" Type="Int32" Nullable="false" />
+          <Property Name="CasesOfBeer" Type="Int32" Nullable="false" />
+          <Property Name="CasesOfBeerDepostited" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Matches" Relationship="BodekassenDB.PlayerMatch" FromRole="Player" ToRole="Match" />
+          <NavigationProperty Name="Goals" Relationship="BodekassenDB.PlayerGoal" FromRole="Player" ToRole="Goal" />
+          <NavigationProperty Name="MOTMs" Relationship="BodekassenDB.PlayerMOTM" FromRole="Player" ToRole="MOTM" />
+          <NavigationProperty Name="Team" Relationship="BodekassenDB.TeamPlayer" FromRole="Player" ToRole="Team" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fines" Relationship="BodekassenDB.PlayerFine" FromRole="Player" ToRole="Fine" />
+          <NavigationProperty Name="Votes" Relationship="BodekassenDB.PlayerVote" FromRole="Player" ToRole="Vote" />
+        </EntityType>
+        <EntityType Name="FineType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="DefaultAmount" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Fines" Relationship="BodekassenDB.FineFineType" FromRole="FineType" ToRole="Fine" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsCaseOfBeer" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeposit" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="BodekassenDB.TeamFineType" FromRole="FineType" ToRole="Team" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FineType" Relationship="BodekassenDB.FineFineType" FromRole="Fine" ToRole="FineType" />
+          <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerFine" FromRole="Fine" ToRole="Player" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FineFineType">
+          <End Type="BodekassenDB.Fine" Role="Fine" Multiplicity="*" />
+          <End Type="BodekassenDB.FineType" Role="FineType" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Match">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OpposingTeam" Type="String" Nullable="false" />
+          <Property Name="GoalsFor" Type="Int32" Nullable="false" />
+          <Property Name="GoalsAgainst" Type="Int32" Nullable="false" />
+          <Property Name="IsHomeMatch" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Players" Relationship="BodekassenDB.PlayerMatch" FromRole="Match" ToRole="Player" />
+          <NavigationProperty Name="Goals" Relationship="BodekassenDB.MatchGoal" FromRole="Match" ToRole="Goal" />
+          <NavigationProperty Name="MOTM" Relationship="BodekassenDB.MatchMOTM" FromRole="Match" ToRole="MOTM" />
+          <NavigationProperty Name="Team" Relationship="BodekassenDB.TeamMatch" FromRole="Match" ToRole="Team" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Votes" Relationship="BodekassenDB.MatchVote" FromRole="Match" ToRole="Vote" />
+        </EntityType>
+        <EntityType Name="Goal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Match" Relationship="BodekassenDB.MatchGoal" FromRole="Goal" ToRole="Match" />
+          <Property Name="MatchId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerGoal" FromRole="Goal" ToRole="Player" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="PlayerMatch">
+          <End Type="BodekassenDB.Player" Role="Player" Multiplicity="*" />
+          <End Type="BodekassenDB.Match" Role="Match" Multiplicity="*" />
+        </Association>
+        <Association Name="TeamFineType">
+          <End Type="BodekassenDB.Team" Role="Team" Multiplicity="1" />
+          <End Type="BodekassenDB.FineType" Role="FineType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FineType">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MatchGoal">
+          <End Type="BodekassenDB.Match" Role="Match" Multiplicity="1" />
+          <End Type="BodekassenDB.Goal" Role="Goal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goal">
+              <PropertyRef Name="MatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PlayerGoal">
+          <End Type="BodekassenDB.Player" Multiplicity="1" Role="Player" />
+          <End Type="BodekassenDB.Goal" Multiplicity="*" Role="Goal" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goal">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MOTM">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Match" Relationship="BodekassenDB.MatchMOTM" FromRole="MOTM" ToRole="Match" />
+          <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerMOTM" FromRole="MOTM" ToRole="Player" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerVote" FromRole="Vote" ToRole="Player" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Match" Relationship="BodekassenDB.MatchVote" FromRole="Vote" ToRole="Match" />
+          <Property Name="MatchId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="MatchMOTM">
+          <End Type="BodekassenDB.Match" Role="Match" Multiplicity="1" />
+          <End Type="BodekassenDB.MOTM" Role="MOTM" Multiplicity="1" />
+        </Association>
+        <Association Name="PlayerMOTM">
+          <End Type="BodekassenDB.Player" Multiplicity="1" Role="Player" />
+          <End Type="BodekassenDB.MOTM" Multiplicity="*" Role="MOTM" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOTM">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamMatch">
+          <End Type="BodekassenDB.Team" Role="Team" Multiplicity="1" />
+          <End Type="BodekassenDB.Match" Role="Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeamPlayer">
+          <End Type="BodekassenDB.Team" Role="Team" Multiplicity="1" />
+          <End Type="BodekassenDB.Player" Role="Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PlayerFine">
+          <End Type="BodekassenDB.Player" Role="Player" Multiplicity="1" />
+          <End Type="BodekassenDB.Fine" Role="Fine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fine">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PlayerVote">
+          <End Type="BodekassenDB.Player" Role="Player" Multiplicity="1" />
+          <End Type="BodekassenDB.Vote" Role="Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vote">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MatchVote">
+          <End Type="BodekassenDB.Match" Role="Match" Multiplicity="1" />
+          <End Type="BodekassenDB.Vote" Role="Vote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Match">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vote">
+              <PropertyRef Name="MatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BodekassenDBStoreContainer" CdmEntityContainer="BodekassenDBContainer">
+    <EntitySetMapping Name="TeamSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Team)">
+        <MappingFragment StoreEntitySet="TeamSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
+          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
+          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="CasesOfBeerDeposited" ColumnName="CasesOfBeerDeposited" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Player)">
+        <MappingFragment StoreEntitySet="PlayerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
+          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
+          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="CasesOfBeerDepostited" ColumnName="CasesOfBeerDepostited" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FineTypeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.FineType)">
+        <MappingFragment StoreEntitySet="FineTypeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsCaseOfBeer" ColumnName="IsCaseOfBeer" />
+          <ScalarProperty Name="IsDeposit" ColumnName="IsDeposit" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FineSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Fine)">
+        <MappingFragment StoreEntitySet="FineSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatchSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Match)">
+        <MappingFragment StoreEntitySet="MatchSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OpposingTeam" ColumnName="OpposingTeam" />
+          <ScalarProperty Name="GoalsFor" ColumnName="GoalsFor" />
+          <ScalarProperty Name="GoalsAgainst" ColumnName="GoalsAgainst" />
+          <ScalarProperty Name="IsHomeMatch" ColumnName="IsHomeMatch" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GoalSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Goal)">
+        <MappingFragment StoreEntitySet="GoalSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MOTMSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.MOTM)">
+        <MappingFragment StoreEntitySet="MOTMSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoteSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Vote)">
+        <MappingFragment StoreEntitySet="VoteSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FineFineType" TypeName="BodekassenDB.FineFineType" StoreEntitySet="FineSet">
+      <EndProperty Name="FineType">
+        <ScalarProperty Name="Id" ColumnName="FineType_Id" />
+      </EndProperty>
+      <EndProperty Name="Fine">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PlayerMatch" TypeName="BodekassenDB.PlayerMatch" StoreEntitySet="PlayerMatch">
+      <EndProperty Name="Player">
+        <ScalarProperty Name="Id" ColumnName="Players_Id" />
+      </EndProperty>
+      <EndProperty Name="Match">
+        <ScalarProperty Name="Id" ColumnName="Matches_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MatchMOTM" TypeName="BodekassenDB.MatchMOTM" StoreEntitySet="MatchSet">
+      <EndProperty Name="MOTM">
+        <ScalarProperty Name="Id" ColumnName="MOTM_Id" />
+      </EndProperty>
+      <EndProperty Name="Match">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

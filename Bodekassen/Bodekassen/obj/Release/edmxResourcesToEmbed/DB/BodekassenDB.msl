@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BodekassenDBStoreContainer" CdmEntityContainer="BodekassenDBContainer">
+    <EntitySetMapping Name="TeamSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Team)">
+        <MappingFragment StoreEntitySet="TeamSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
+          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
+          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="CasesOfBeerDeposited" ColumnName="CasesOfBeerDeposited" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Player)">
+        <MappingFragment StoreEntitySet="PlayerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
+          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
+          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="CasesOfBeerDepostited" ColumnName="CasesOfBeerDepostited" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FineTypeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.FineType)">
+        <MappingFragment StoreEntitySet="FineTypeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsCaseOfBeer" ColumnName="IsCaseOfBeer" />
+          <ScalarProperty Name="IsDeposit" ColumnName="IsDeposit" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FineSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Fine)">
+        <MappingFragment StoreEntitySet="FineSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatchSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Match)">
+        <MappingFragment StoreEntitySet="MatchSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OpposingTeam" ColumnName="OpposingTeam" />
+          <ScalarProperty Name="GoalsFor" ColumnName="GoalsFor" />
+          <ScalarProperty Name="GoalsAgainst" ColumnName="GoalsAgainst" />
+          <ScalarProperty Name="IsHomeMatch" ColumnName="IsHomeMatch" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GoalSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Goal)">
+        <MappingFragment StoreEntitySet="GoalSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MOTMSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.MOTM)">
+        <MappingFragment StoreEntitySet="MOTMSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoteSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Vote)">
+        <MappingFragment StoreEntitySet="VoteSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FineFineType" TypeName="BodekassenDB.FineFineType" StoreEntitySet="FineSet">
+      <EndProperty Name="FineType">
+        <ScalarProperty Name="Id" ColumnName="FineType_Id" />
+      </EndProperty>
+      <EndProperty Name="Fine">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PlayerMatch" TypeName="BodekassenDB.PlayerMatch" StoreEntitySet="PlayerMatch">
+      <EndProperty Name="Player">
+        <ScalarProperty Name="Id" ColumnName="Players_Id" />
+      </EndProperty>
+      <EndProperty Name="Match">
+        <ScalarProperty Name="Id" ColumnName="Matches_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MatchMOTM" TypeName="BodekassenDB.MatchMOTM" StoreEntitySet="MatchSet">
+      <EndProperty Name="MOTM">
+        <ScalarProperty Name="Id" ColumnName="MOTM_Id" />
+      </EndProperty>
+      <EndProperty Name="Match">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
