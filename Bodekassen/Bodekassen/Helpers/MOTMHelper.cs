@@ -34,6 +34,7 @@ namespace Bodekassen.Helpers
                         highestVoteCount = voteCount;
                         player = p;
                     }
+                    voteCount = 0;
                 }
 
                 MOTM motm = db.MOTMSet.Add(new MOTM { Player = player, PlayerId = player.Id, Match = match });
@@ -43,9 +44,7 @@ namespace Bodekassen.Helpers
             else
             {
                 return false;
-            }
-
-            
+            }        
         }
     }
 }

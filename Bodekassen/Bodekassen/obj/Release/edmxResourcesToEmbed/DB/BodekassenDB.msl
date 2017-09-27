@@ -6,12 +6,13 @@
         <MappingFragment StoreEntitySet="TeamSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
-          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
-          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="FineTotal" ColumnName="FineTotal" />
+          <ScalarProperty Name="FineDeposited" ColumnName="FineDeposited" />
+          <ScalarProperty Name="CasesOfBeerTotal" ColumnName="CasesOfBeerTotal" />
           <ScalarProperty Name="CasesOfBeerDeposited" ColumnName="CasesOfBeerDeposited" />
+          <ScalarProperty Name="CurrentSeasonId" ColumnName="CurrentSeasonId" />
+          <ScalarProperty Name="ConnectionCode" ColumnName="ConnectionCode" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -20,11 +21,12 @@
         <MappingFragment StoreEntitySet="PlayerSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
-          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
-          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="FineTotal" ColumnName="FineTotal" />
+          <ScalarProperty Name="FineDeposited" ColumnName="FineDeposited" />
+          <ScalarProperty Name="CasesOfBeerTotal" ColumnName="CasesOfBeerTotal" />
           <ScalarProperty Name="CasesOfBeerDepostited" ColumnName="CasesOfBeerDepostited" />
           <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -33,7 +35,7 @@
         <MappingFragment StoreEntitySet="FineTypeSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+          <ScalarProperty Name="DefaultPrice" ColumnName="DefaultPrice" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="IsCaseOfBeer" ColumnName="IsCaseOfBeer" />
           <ScalarProperty Name="IsDeposit" ColumnName="IsDeposit" />
@@ -46,7 +48,7 @@
         <MappingFragment StoreEntitySet="FineSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -61,6 +63,8 @@
           <ScalarProperty Name="IsHomeMatch" ColumnName="IsHomeMatch" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
+          <ScalarProperty Name="SeasonId1" ColumnName="SeasonId1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -78,6 +82,7 @@
         <MappingFragment StoreEntitySet="MOTMSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -87,6 +92,25 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
           <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeasonSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Season)">
+        <MappingFragment StoreEntitySet="SeasonSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -111,6 +135,14 @@
         <ScalarProperty Name="Id" ColumnName="MOTM_Id" />
       </EndProperty>
       <EndProperty Name="Match">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SeasonTeam" TypeName="BodekassenDB.SeasonTeam" StoreEntitySet="SeasonSet">
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Id" ColumnName="Team_Id" />
+      </EndProperty>
+      <EndProperty Name="Season">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

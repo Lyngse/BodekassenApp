@@ -8,7 +8,7 @@
     <ion-title>Fine types</ion-title>
     <ion-buttons right>
       <button ion-button icon-only color="royal" [navPush]="finetypeCreate">
-        <ion-icon name="person-add"></ion-icon>
+        <ion-icon name="md-add-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -20,7 +20,7 @@
     <ion-item-sliding *ngFor="let finetype of finetypes">
       <ion-item>
         <h2>{{ finetype.Name }}</h2>
-        <p>{{ finetype.DefaultAmount }} | {{ player.FineDepositedAmount }}</p>
+        <p>{{ finetype.DefaultAmount }} </p>
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="primary">

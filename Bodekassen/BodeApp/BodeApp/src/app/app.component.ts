@@ -7,6 +7,8 @@ import { Page2 } from '../pages/page2/page2';
 import { PlayerListComponent } from '../content/player-list/player-list.component';
 import { TeamCreateComponent } from "../content/team-create/team-create.component";
 import { TeamEditComponent } from "../content/team-edit/team-edit.component";
+import {FinetypeCreateComponent} from "../content/finetype-create/finetype-create.component";
+import {FinetypeListComponent} from "../content/finetype-list/finetype-list.component";
 
 
 @Component({
@@ -28,7 +30,8 @@ export class MyApp {
       { title: 'Page Two', component: Page2 },
       { title: 'PlayerList', component: PlayerListComponent},
       { title: 'TeamCreate', component: TeamCreateComponent},
-      { title: 'TeamEdit', component: TeamEditComponent}
+      { title: 'TeamEdit', component: TeamEditComponent},
+      { title: 'FinetypeList', component: FinetypeListComponent}
     ];
 
   }

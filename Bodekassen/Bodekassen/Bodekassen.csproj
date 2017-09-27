@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/4dafed8b-91e9-4c99-a129-93c7488c8718/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/Bodekassen</ApplicationInsightsResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -217,6 +218,7 @@
     <Compile Include="Attributes\CORSAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublicAPIController.cs" />
@@ -253,7 +255,13 @@
     <Compile Include="DB\Player.cs">
       <DependentUpon>BodekassenDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\Season.cs">
+      <DependentUpon>BodekassenDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\Team.cs">
+      <DependentUpon>BodekassenDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\User.cs">
       <DependentUpon>BodekassenDB.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\Vote.cs">
@@ -360,6 +368,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\API\" />
+    <Folder Include="Views\Auth\" />
     <Folder Include="Views\CORSAttribute\" />
     <Folder Include="Views\CORS\" />
     <Folder Include="Views\FineCalculator\" />

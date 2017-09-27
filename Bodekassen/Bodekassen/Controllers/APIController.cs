@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bodekassen.Attributes;
 using Bodekassen.DB;
+using System.Threading.Tasks;
 
 namespace Bodekassen.Controllers
 {
@@ -24,28 +25,35 @@ namespace Bodekassen.Controllers
         [HttpPost]
         public ActionResult CreateTeam(string name, string email, string password)
         {
-            int fineAmount = 0;
-            int fineDepositedAmount = 0;
-            int casesOfBeer = 0;
+            Random generator = new Random();
+            int fineTotal = 0;
+            int fineDeposited = 0;
+            int casesOfBeerTotal = 0;
             int casesOfBeerDeposited = 0;
-            Team t = new Team { Name = name, Email = email, Password = password, FineAmount = fineAmount, FineDepositedAmount = fineDepositedAmount, CasesOfBeer = casesOfBeer, CasesOfBeerDeposited = casesOfBeerDeposited };
+            string connectionCode = generator.Next(000000, 999999).ToString();
+
+            Team t = new Team { Name = name, FineTotal = fineTotal, FineDeposited = fineDeposited, CasesOfBeerTotal = casesOfBeerTotal, CasesOfBeerDeposited = casesOfBeerDeposited, ConnectionCode = connectionCode };
             db.TeamSet.Add(t);
+
+            Match[] matches = { };
+            Season s = db.SeasonSet.Add(new Season { TeamId = t.Id, Team = t, Matches = matches });
+            t.CurrentSeasonId = s.Id;
+
+            db.Entry(t).State = EntityState.Modified;
             db.SaveChanges();
 
             return Json(new { status = "success" });
         }
 
         [HttpPost]
-        public ActionResult UpdateTeam(int teamId, string name, string email, string password)
+        public ActionResult UpdateTeam(int teamId, string name)
         {
             Team t = db.TeamSet.Find(teamId);
             t.Name = name;
-            t.Email = email;
-            t.Password = password;
-            t.FineAmount = t.FineAmount;
-            t.FineDepositedAmount = t.FineDepositedAmount;
-            t.CasesOfBeerDeposited = t.CasesOfBeerDeposited;
-            t.CasesOfBeer = t.CasesOfBeer;
+            //t.FineTotal = t.FineTotal;
+            //t.FineDeposited = t.FineDeposited;
+            //t.CasesOfBeerDeposited = t.CasesOfBeerDeposited;
+            //t.CasesOfBeerTotal = t.CasesOfBeerTotal;
 
             db.Entry(t).State = EntityState.Modified;
             db.SaveChanges();
@@ -80,12 +88,12 @@ namespace Bodekassen.Controllers
         public ActionResult CreatePlayer(string name, int teamId)
         {
             Team t = db.TeamSet.Find(teamId);
-            int fineAmount = 0;
-            int fineDepositedAmount = 0;
-            int casesOfBeer = 0;
+            int fineTotal = 0;
+            int fineDeposited = 0;
+            int casesOfBeerTotal = 0;
             int casesOfBeerDeposited = 0;
 
-            Player u = db.PlayerSet.Add(new Player { Name = name, FineAmount = fineAmount, FineDepositedAmount = fineDepositedAmount, CasesOfBeer = casesOfBeer, CasesOfBeerDepostited = casesOfBeerDeposited, Team = t, TeamId = t.Id});
+            Player p = db.PlayerSet.Add(new Player { Name = name, FineTotal = fineTotal, FineDeposited = fineDeposited, CasesOfBeerTotal = casesOfBeerTotal, CasesOfBeerDepostited = casesOfBeerDeposited, Team = t, TeamId = t.Id});
             db.SaveChanges();
 
             return Json(new { status = "success" });
@@ -97,9 +105,9 @@ namespace Bodekassen.Controllers
             Player p = db.PlayerSet.Find(playerId);
 
             p.Name = name;
-            p.FineAmount = p.FineAmount;
-            p.FineDepositedAmount = p.FineDepositedAmount;
-            p.CasesOfBeer = p.CasesOfBeer;
+            p.FineTotal = p.FineTotal;
+            p.FineDeposited = p.FineDeposited;
+            p.CasesOfBeerTotal = p.CasesOfBeerTotal;
             p.CasesOfBeerDepostited = p.CasesOfBeerDepostited;
 
             db.Entry(p).State = EntityState.Modified;
@@ -121,11 +129,11 @@ namespace Bodekassen.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateFineType(string name, int defaultAmount, int teamId, bool isDeleted = false, bool isCaseOfBeer = false, bool isDeposit = false)
+        public ActionResult CreateFineType(string name, int defaultPrice, int teamId, bool isDeleted = false, bool isCaseOfBeer = false, bool isDeposit = false)
         {
             Team t = db.TeamSet.Find(teamId);
 
-            FineType ft = db.FineTypeSet.Add(new FineType { Name = name, DefaultAmount = defaultAmount, IsDeleted = isDeleted, IsCaseOfBeer = isCaseOfBeer, IsDeposit = isDeposit, Team = t, TeamId = t.Id });
+            FineType ft = db.FineTypeSet.Add(new FineType { Name = name, DefaultPrice = defaultPrice, IsDeleted = isDeleted, IsCaseOfBeer = isCaseOfBeer, IsDeposit = isDeposit, Team = t, TeamId = t.Id });
             db.SaveChanges();
 
             return Json(new { status = "success" });
@@ -138,7 +146,7 @@ namespace Bodekassen.Controllers
 
             foreach (FineType ft in t.FineTypes)
             {
-                fineTypes.Add(new { Id = ft.Id, Name = ft.Name, DefaultAmount = ft.DefaultAmount });
+                fineTypes.Add(new { Id = ft.Id, Name = ft.Name, DefaultAmount = ft.DefaultPrice });
             }
 
             Object obj = new { status = "success", FineTypes = fineTypes };
@@ -149,7 +157,6 @@ namespace Bodekassen.Controllers
         [HttpDelete]
         public ActionResult DelelteFineType(int fineTypeId, bool isDeleted = true)
         {
-
             //Hvis en finetype bliver "slettet" ændres dens bool (IsDeleted) blot. Hvor alle bøder hvor deres bødetype er
             // IsDeleted = true, skal ikke med regnes eller vises, samt bødetypen skal ikke vises nogle steder
             FineType ft = db.FineTypeSet.Find(fineTypeId);
@@ -163,34 +170,34 @@ namespace Bodekassen.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFine(int fineTypeId, int amount, int playerId)
+        public ActionResult AddFine(int fineTypeId, int price, int playerId)
         {
             Player p = db.PlayerSet.Find(playerId);
             Team t = db.TeamSet.Find(p.TeamId);
             FineType ft = db.FineTypeSet.Find(fineTypeId);
             DateTime date = DateTime.Now;
 
-            Fine f = db.FineSet.Add(new Fine { FineType = ft, Amount = amount, Player = p, PlayerId = p.Id });
+            Fine f = db.FineSet.Add(new Fine { FineType = ft, Price = price, Player = p, PlayerId = p.Id });
 
             if(f.FineType.IsCaseOfBeer == true && f.FineType.IsDeposit == false)
             {
-                p.CasesOfBeer += amount;
-                t.CasesOfBeer += amount;
+                p.CasesOfBeerTotal += price;
+                t.CasesOfBeerTotal += price;
             }
             else if(f.FineType.IsCaseOfBeer == true && f.FineType.IsDeposit == true)
             {
-                p.CasesOfBeerDepostited += amount;
-                t.CasesOfBeerDeposited += amount;
+                p.CasesOfBeerDepostited += price;
+                t.CasesOfBeerDeposited += price;
             }
             else if(f.FineType.IsCaseOfBeer == false && f.FineType.IsDeposit == true)
             {
-                p.CasesOfBeerDepostited += amount;
-                t.CasesOfBeerDeposited += amount;
+                p.CasesOfBeerDepostited += price;
+                t.CasesOfBeerDeposited += price;
             }
             else
             {
-                p.FineAmount += amount;
-                t.FineAmount += amount;
+                p.FineTotal += price;
+                t.FineTotal += price;
             }
 
             db.Entry(p).State = EntityState.Modified;
@@ -201,12 +208,12 @@ namespace Bodekassen.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateFine(int fineId, FineType fineType, int amount)
+        public ActionResult UpdateFine(int fineId, FineType fineType, int price)
         {
             Fine f = db.FineSet.Find(fineId);
 
             f.FineType = fineType;
-            f.Amount = amount;
+            f.Price = price;
 
             db.Entry(f).State = EntityState.Modified;
             db.SaveChanges();
@@ -237,7 +244,7 @@ namespace Bodekassen.Controllers
             {
                 foreach (Fine f in p.Fines)
                 {
-                    fines.Add(new { Id = f.Id, FineType = f.FineType, Date = f.Date, ActualPrice = f.Amount });
+                    fines.Add(new { Id = f.Id, FineType = f.FineType, Date = f.Date, Price = f.Price });
                 }
             }
 
@@ -407,6 +414,21 @@ namespace Bodekassen.Controllers
             p.MOTMs.Remove(motm);
             db.MOTMSet.Remove(motm);
 
+            db.SaveChanges();
+
+            return Json(new { status = "success" });
+        }
+
+        [HttpPost]
+        public  ActionResult CreateNewSeason (int teamId)
+        {
+            Team t = db.TeamSet.Find(teamId);
+            Match[] matches = { };
+
+            Season s = db.SeasonSet.Add(new Season { TeamId = teamId, Team = t, Matches = matches });
+            t.CurrentSeasonId = s.Id;
+
+            db.Entry(t).State = EntityState.Modified;
             db.SaveChanges();
 
             return Json(new { status = "success" });

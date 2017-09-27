@@ -10,16 +10,16 @@ export class FinetypeCreateService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
   options = new RequestOptions({headers: this.headers});
-  //apiUrl: string = 'http://bodeapp.azurewebsites.net/';
-  apiUrl: string = 'http://localhost:59921/';
+  apiUrl: string = 'http://bodeapp.azurewebsites.net/';
+  //apiUrl: string = 'http://localhost:59921/';
 
   constructor(private http: Http) {
 
   }
 
-  createFinetype(name: string, teamId: number): Promise<Finetype> {
+  createFinetype(name: string, defaultAmount: number, teamId: number, isCaseOfBeer: boolean, isDeposit: boolean): Promise<Finetype> {
     return this.http
-      .post(this.apiUrl + 'api/CreateFineType/', JSON.stringify({name:  name, teamId: teamId}), this.options)
+      .post(this.apiUrl + 'api/CreateFineType/', JSON.stringify({name:  name, defaultAmount: defaultAmount, teamId: teamId, isDeleted: false, isCaseOfBeer: isCaseOfBeer, isDeposit: isDeposit}), this.options)
       .toPromise()
       .then((res) => res.json().data)
       .catch(this.handleError);

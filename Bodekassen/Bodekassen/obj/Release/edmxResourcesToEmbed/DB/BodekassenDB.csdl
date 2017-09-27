@@ -57,6 +57,20 @@
       <End Role="Match" EntitySet="MatchSet" />
       <End Role="Vote" EntitySet="VoteSet" />
     </AssociationSet>
+    <EntitySet Name="SeasonSet" EntityType="BodekassenDB.Season" />
+    <AssociationSet Name="SeasonTeam" Association="BodekassenDB.SeasonTeam">
+      <End Role="Season" EntitySet="SeasonSet" />
+      <End Role="Team" EntitySet="TeamSet" />
+    </AssociationSet>
+    <AssociationSet Name="SeasonMatch" Association="BodekassenDB.SeasonMatch">
+      <End Role="Season" EntitySet="SeasonSet" />
+      <End Role="Match" EntitySet="MatchSet" />
+    </AssociationSet>
+    <EntitySet Name="UserSet" EntityType="BodekassenDB.User" />
+    <AssociationSet Name="UserTeam" Association="BodekassenDB.UserTeam">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Team" EntitySet="TeamSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Team">
     <Key>
@@ -64,15 +78,18 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="Email" Type="String" Nullable="false" />
-    <Property Name="Password" Type="String" Nullable="false" />
-    <Property Name="FineAmount" Type="Int32" Nullable="false" />
-    <Property Name="FineDepositedAmount" Type="Int32" Nullable="false" />
-    <Property Name="CasesOfBeer" Type="Int32" Nullable="false" />
+    <Property Name="FineTotal" Type="Int32" Nullable="false" />
+    <Property Name="FineDeposited" Type="Int32" Nullable="false" />
+    <Property Name="CasesOfBeerTotal" Type="Int32" Nullable="false" />
     <Property Name="CasesOfBeerDeposited" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FineTypes" Relationship="BodekassenDB.TeamFineType" FromRole="Team" ToRole="FineType" />
     <NavigationProperty Name="Matches" Relationship="BodekassenDB.TeamMatch" FromRole="Team" ToRole="Match" />
     <NavigationProperty Name="Players" Relationship="BodekassenDB.TeamPlayer" FromRole="Team" ToRole="Player" />
+    <NavigationProperty Name="Seasons" Relationship="BodekassenDB.SeasonTeam" FromRole="Team" ToRole="Season" />
+    <Property Name="CurrentSeasonId" Type="Int32" Nullable="false" />
+    <Property Name="ConnectionCode" Type="String" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="BodekassenDB.UserTeam" FromRole="Team" ToRole="User" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Player">
     <Key>
@@ -80,9 +97,9 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="FineAmount" Type="Int32" Nullable="false" />
-    <Property Name="FineDepositedAmount" Type="Int32" Nullable="false" />
-    <Property Name="CasesOfBeer" Type="Int32" Nullable="false" />
+    <Property Name="FineTotal" Type="Int32" Nullable="false" />
+    <Property Name="FineDeposited" Type="Int32" Nullable="false" />
+    <Property Name="CasesOfBeerTotal" Type="Int32" Nullable="false" />
     <Property Name="CasesOfBeerDepostited" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Matches" Relationship="BodekassenDB.PlayerMatch" FromRole="Player" ToRole="Match" />
     <NavigationProperty Name="Goals" Relationship="BodekassenDB.PlayerGoal" FromRole="Player" ToRole="Goal" />
@@ -91,6 +108,7 @@
     <Property Name="TeamId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Fines" Relationship="BodekassenDB.PlayerFine" FromRole="Player" ToRole="Fine" />
     <NavigationProperty Name="Votes" Relationship="BodekassenDB.PlayerVote" FromRole="Player" ToRole="Vote" />
+    <Property Name="SeasonId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="FineType">
     <Key>
@@ -98,7 +116,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="DefaultAmount" Type="Int32" Nullable="true" />
+    <Property Name="DefaultPrice" Type="Int32" Nullable="true" />
     <NavigationProperty Name="Fines" Relationship="BodekassenDB.FineFineType" FromRole="FineType" ToRole="Fine" />
     <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
     <Property Name="IsCaseOfBeer" Type="Boolean" Nullable="false" />
@@ -112,7 +130,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Date" Type="DateTime" Nullable="false" />
-    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FineType" Relationship="BodekassenDB.FineFineType" FromRole="Fine" ToRole="FineType" />
     <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerFine" FromRole="Fine" ToRole="Player" />
     <Property Name="PlayerId" Type="Int32" Nullable="false" />
@@ -137,6 +155,9 @@
     <NavigationProperty Name="Team" Relationship="BodekassenDB.TeamMatch" FromRole="Match" ToRole="Team" />
     <Property Name="TeamId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Votes" Relationship="BodekassenDB.MatchVote" FromRole="Match" ToRole="Vote" />
+    <Property Name="SeasonId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Season" Relationship="BodekassenDB.SeasonMatch" FromRole="Match" ToRole="Season" />
+    <Property Name="SeasonId1" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Goal">
     <Key>
@@ -196,6 +217,7 @@
     <NavigationProperty Name="Match" Relationship="BodekassenDB.MatchMOTM" FromRole="MOTM" ToRole="Match" />
     <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerMOTM" FromRole="MOTM" ToRole="Player" />
     <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="MatchId" Type="String" Nullable="false" />
   </EntityType>
   <EntityType Name="Vote">
     <Key>
@@ -280,6 +302,54 @@
       </Principal>
       <Dependent Role="Vote">
         <PropertyRef Name="MatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Season">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Team" Relationship="BodekassenDB.SeasonTeam" FromRole="Season" ToRole="Team" />
+    <Property Name="TeamId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Matches" Relationship="BodekassenDB.SeasonMatch" FromRole="Season" ToRole="Match" />
+    <Property Name="Name" Type="String" Nullable="false" />
+  </EntityType>
+  <Association Name="SeasonTeam">
+    <End Type="BodekassenDB.Season" Role="Season" Multiplicity="*" />
+    <End Type="BodekassenDB.Team" Role="Team" Multiplicity="1" />
+  </Association>
+  <Association Name="SeasonMatch">
+    <End Type="BodekassenDB.Season" Role="Season" Multiplicity="1" />
+    <End Type="BodekassenDB.Match" Role="Match" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Season">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Match">
+        <PropertyRef Name="SeasonId1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" />
+    <Property Name="LastName" Type="String" Nullable="false" />
+    <Property Name="FacebookId" Type="String" Nullable="false" />
+    <NavigationProperty Name="Teams" Relationship="BodekassenDB.UserTeam" FromRole="User" ToRole="Team" />
+  </EntityType>
+  <Association Name="UserTeam">
+    <End Type="BodekassenDB.User" Role="User" Multiplicity="1" />
+    <End Type="BodekassenDB.Team" Role="Team" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Team">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

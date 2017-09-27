@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Create finetype</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h3>Create finetype</h3>
+
+  <form novalidate #f="ngForm" (ngSubmit)="onSubmit(model.name, model.defaultAmount, model.isCaseOfBeer, model.isDeposit)">
+    <ion-list>
+      <ion-item class="form-group">
+        <ion-label floating>Fine name</ion-label>
+        <ion-input class="form-control" name="name" type="text" [(ngModel)]="model.name"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label floating>Default price</ion-label>
+        <ion-input class="form-control" name="defaultAmount" type="number" [(ngModel)]="model.defaultAmount" placeholder="0"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label>Case of beer</ion-label>
+        <ion-toggle checked="false" name="isCaseOfBeer" [(ngModel)]="model.isCaseOfBeer"></ion-toggle>
+      </ion-item>
+
+      <ion-item class="form-group">
+        <ion-label>Is a deposit type</ion-label>
+        <ion-toggle checked="false" name="isDeposit" [(ngModel)]="model.isDeposit"></ion-toggle>
+      </ion-item>
+
+    </ion-list>
+    <button ion-button block type="submit">Submit Team</button>
+  </form>
+
+  <pre>{{ f.value | json }}</pre>
+</ion-content>

@@ -11,8 +11,8 @@ export class TeamEditService{
 
   private headers = new Headers({'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers });
-  //apiUrl: string = "http://bodeapp.azurewebsites.net/";
-  apiUrl: string = 'http://localhost:59921/';
+  apiUrl: string = "http://bodeapp.azurewebsites.net/";
+  //apiUrl: string = 'http://localhost:59921/';
 
   constructor(private http: Http) {
 

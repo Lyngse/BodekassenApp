@@ -20,16 +20,18 @@ namespace Bodekassen.DB
             this.FineTypes = new HashSet<FineType>();
             this.Matches = new HashSet<Match>();
             this.Players = new HashSet<Player>();
+            this.Seasons = new HashSet<Season>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public int FineAmount { get; set; }
-        public int FineDepositedAmount { get; set; }
-        public int CasesOfBeer { get; set; }
+        public int FineTotal { get; set; }
+        public int FineDeposited { get; set; }
+        public int CasesOfBeerTotal { get; set; }
         public int CasesOfBeerDeposited { get; set; }
+        public int CurrentSeasonId { get; set; }
+        public string ConnectionCode { get; set; }
+        public int UserId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FineType> FineTypes { get; set; }
@@ -37,5 +39,8 @@ namespace Bodekassen.DB
         public virtual ICollection<Match> Matches { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Player> Players { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Season> Seasons { get; set; }
+        public virtual User User { get; set; }
     }
 }

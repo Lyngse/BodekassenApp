@@ -10,19 +10,19 @@ import { Finetype } from '../Model/finetype';
 export class FineTypeListService {
   private headers = new Headers({'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers });
-  //apiUrl: string = 'http://bodeapp.azurewebsites.net/';
-  apiUrl: string = 'http://localhost:59921/';
+  apiUrl: string = 'http://bodeapp.azurewebsites.net/';
+  //apiUrl: string = 'http://localhost:59921/';
 
   constructor(private http: Http) {
 
   }
 
   getFinetypes(teamId: number): Promise<Finetype[]> {
-    const url = `${this.apiUrl}PublicApi/GetPlayers/?teamId=${teamId}`;
+    const url = `${this.apiUrl}Api/ReadFineTypes/?teamId=${teamId}`;
     return this.http
       .get(url)
       .toPromise()
-      .then(response => response.json().Players)
+      .then(response => response.json().FineTypes)
       .catch(this.handleError);
   }
 

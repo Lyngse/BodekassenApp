@@ -33,5 +33,7 @@ namespace Bodekassen.DB
         public virtual DbSet<Goal> GoalSet { get; set; }
         public virtual DbSet<MOTM> MOTMSet { get; set; }
         public virtual DbSet<Vote> VoteSet { get; set; }
+        public virtual DbSet<Season> SeasonSet { get; set; }
+        public virtual DbSet<User> UserSet { get; set; }
     }
 }

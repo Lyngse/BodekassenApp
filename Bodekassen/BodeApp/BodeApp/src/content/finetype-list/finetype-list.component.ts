@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -11,8 +10,8 @@ import { FinetypeCreateComponent } from'../finetype-create/finetype-create.compo
 
 
 @Component({
-  selector: 'player-list',
-  templateUrl: 'player-list.html',
+  selector: 'finetype-list',
+  templateUrl: 'finetype-list.html',
   providers: [FineTypeListService]
 })
 export class FinetypeListComponent {
@@ -29,7 +28,7 @@ export class FinetypeListComponent {
   getFinetypes(): void {
     this.fineTypeListService
       .getFinetypes(1)
-      .then(finetypes => this.finetypes = finetypes);
+      .then(FineTypes => this.finetypes = FineTypes);
     console.log(this.finetypes);
   }
 

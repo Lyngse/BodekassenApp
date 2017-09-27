@@ -25,6 +25,11 @@
         <AssociationConnector Association="BodekassenDB.PlayerFine" />
         <AssociationConnector Association="BodekassenDB.PlayerVote" />
         <AssociationConnector Association="BodekassenDB.MatchVote" />
+        <EntityTypeShape EntityType="BodekassenDB.Season" Width="1.5" PointX="0.625" PointY="2.75" />
+        <AssociationConnector Association="BodekassenDB.SeasonTeam" />
+        <AssociationConnector Association="BodekassenDB.SeasonMatch" />
+        <EntityTypeShape EntityType="BodekassenDB.User" Width="1.5" PointX="1.125" PointY="5.75" />
+        <AssociationConnector Association="BodekassenDB.UserTeam" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -3,7 +3,10 @@ import { NavController } from 'ionic-angular';
 import { FinetypeCreateService } from "./finetype-create.service";
 
 class FinetypeCreateForm {
-  constructor(public name: string = ""){
+  constructor(public name: string = "",
+              public defaultAmount: number = 0,
+              public isCaseOfBeer: boolean = false,
+              public isDeposit: boolean = false){
 
   }
 }
@@ -21,7 +24,7 @@ export class FinetypeCreateComponent{
 
   }
 
-  onSubmit(name: string): void {
-    this.finetypeCreateService.createFinetype(name, 1);
+  onSubmit(name: string, defaultAmount: number, isCaseOfBeer: boolean, isDeposit: boolean): void {
+    this.finetypeCreateService.createFinetype(name, defaultAmount, 1, isCaseOfBeer, isDeposit);
   }
 }

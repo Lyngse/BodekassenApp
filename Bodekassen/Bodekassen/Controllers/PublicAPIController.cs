@@ -23,10 +23,10 @@ namespace Bodekassen.Controllers
 
             foreach(Player p in t.Players.OrderBy(x => x.Name))
             {
-                players.Add(new { Id = p.Id, Name = p.Name, FineAmount = p.FineAmount, FineDepositedAmount = p.FineDepositedAmount});
+                players.Add(new { Id = p.Id, Name = p.Name, FineTotal = p.FineTotal, FineDeposited = p.FineDeposited});
             }
 
-            Object obj = new {status = "success", Players = players, Id = t.Id, Name = t.Name, FineTypes = t.FineTypes, FineAmount = t.FineAmount, FineDepositedAmount = t.FineDepositedAmount };
+            Object obj = new {status = "success", Players = players, Id = t.Id, Name = t.Name, FineTypes = t.FineTypes, FineTotal = t.FineTotal, FineDeposited = t.FineDeposited };
 
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
@@ -39,10 +39,10 @@ namespace Bodekassen.Controllers
 
             foreach (Fine f in p.Fines.OrderBy(x => x.Date))
             {
-                fines.Add(new { FineType = f.FineType, Date = f.Date, Amount = f.Amount });
+                fines.Add(new { FineType = f.FineType, Date = f.Date, Price = f.Price });
             }
 
-            Object obj = new { status = "success", Id = p.Id, Name = p.Name, Fines = fines, FineAmount = p.FineAmount, FineDepositedAmount = p.FineDepositedAmount };
+            Object obj = new { status = "success", Id = p.Id, Name = p.Name, Fines = fines, FineAmount = p.FineTotal, FineDeposited = p.FineDeposited };
 
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
@@ -54,7 +54,7 @@ namespace Bodekassen.Controllers
 
             foreach (Player p in t.Players)
             {
-                players.Add(new { Id = p.Id, Name = p.Name, FineAmount = p.FineAmount, FineDepositedAmount = p.FineDepositedAmount});
+                players.Add(new { Id = p.Id, Name = p.Name, FineTotal = p.FineTotal, FineDeposited = p.FineDeposited});
             }
 
             Object obj = new { status = "success", Players = players };

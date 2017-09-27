@@ -16,6 +16,7 @@ namespace Bodekassen.DB
     {
         public int Id { get; set; }
         public int PlayerId { get; set; }
+        public string MatchId { get; set; }
     
         public virtual Match Match { get; set; }
         public virtual Player Player { get; set; }

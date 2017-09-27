@@ -26,11 +26,12 @@ namespace Bodekassen.DB
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int FineAmount { get; set; }
-        public int FineDepositedAmount { get; set; }
-        public int CasesOfBeer { get; set; }
+        public int FineTotal { get; set; }
+        public int FineDeposited { get; set; }
+        public int CasesOfBeerTotal { get; set; }
         public int CasesOfBeerDepostited { get; set; }
         public int TeamId { get; set; }
+        public int SeasonId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Match> Matches { get; set; }

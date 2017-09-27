@@ -14,6 +14,8 @@
     <EntitySet Name="GoalSet" EntityType="BodekassenDB.Store.GoalSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MOTMSet" EntityType="BodekassenDB.Store.MOTMSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VoteSet" EntityType="BodekassenDB.Store.VoteSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SeasonSet" EntityType="BodekassenDB.Store.SeasonSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserSet" EntityType="BodekassenDB.Store.UserSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PlayerMatch" EntityType="BodekassenDB.Store.PlayerMatch" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FineFineType" Association="BodekassenDB.Store.FineFineType">
       <End Role="Fine" EntitySet="FineSet" />
@@ -67,6 +69,18 @@
       <End Role="Match" EntitySet="MatchSet" />
       <End Role="Vote" EntitySet="VoteSet" />
     </AssociationSet>
+    <AssociationSet Name="SeasonTeam" Association="BodekassenDB.Store.SeasonTeam">
+      <End Role="Season" EntitySet="SeasonSet" />
+      <End Role="Team" EntitySet="TeamSet" />
+    </AssociationSet>
+    <AssociationSet Name="SeasonMatch" Association="BodekassenDB.Store.SeasonMatch">
+      <End Role="Season" EntitySet="SeasonSet" />
+      <End Role="Match" EntitySet="MatchSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserTeam" Association="BodekassenDB.Store.UserTeam">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Team" EntitySet="TeamSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="TeamSet">
     <Key>
@@ -74,12 +88,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="FineAmount" Type="int" Nullable="false" />
-    <Property Name="FineDepositedAmount" Type="int" Nullable="false" />
-    <Property Name="CasesOfBeer" Type="int" Nullable="false" />
+    <Property Name="FineTotal" Type="int" Nullable="false" />
+    <Property Name="FineDeposited" Type="int" Nullable="false" />
+    <Property Name="CasesOfBeerTotal" Type="int" Nullable="false" />
     <Property Name="CasesOfBeerDeposited" Type="int" Nullable="false" />
+    <Property Name="CurrentSeasonId" Type="int" Nullable="false" />
+    <Property Name="ConnectionCode" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PlayerSet">
     <Key>
@@ -87,11 +102,12 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="FineAmount" Type="int" Nullable="false" />
-    <Property Name="FineDepositedAmount" Type="int" Nullable="false" />
-    <Property Name="CasesOfBeer" Type="int" Nullable="false" />
+    <Property Name="FineTotal" Type="int" Nullable="false" />
+    <Property Name="FineDeposited" Type="int" Nullable="false" />
+    <Property Name="CasesOfBeerTotal" Type="int" Nullable="false" />
     <Property Name="CasesOfBeerDepostited" Type="int" Nullable="false" />
     <Property Name="TeamId" Type="int" Nullable="false" />
+    <Property Name="SeasonId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FineTypeSet">
     <Key>
@@ -99,7 +115,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DefaultAmount" Type="int" Nullable="true" />
+    <Property Name="DefaultPrice" Type="int" Nullable="true" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
     <Property Name="IsCaseOfBeer" Type="bit" Nullable="false" />
     <Property Name="IsDeposit" Type="bit" Nullable="false" />
@@ -111,7 +127,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="Price" Type="int" Nullable="false" />
     <Property Name="PlayerId" Type="int" Nullable="false" />
     <Property Name="FineType_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -126,6 +142,8 @@
     <Property Name="IsHomeMatch" Type="bit" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="TeamId" Type="int" Nullable="false" />
+    <Property Name="SeasonId" Type="int" Nullable="false" />
+    <Property Name="SeasonId1" Type="int" Nullable="false" />
     <Property Name="MOTM_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="GoalSet">
@@ -142,6 +160,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="MatchId" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="VoteSet">
     <Key>
@@ -150,6 +169,24 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PlayerId" Type="int" Nullable="false" />
     <Property Name="MatchId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SeasonSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeamId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Team_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FacebookId" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="PlayerMatch">
     <Key>
@@ -291,6 +328,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SeasonTeam">
+    <End Role="Season" Type="BodekassenDB.Store.SeasonSet" Multiplicity="*" />
+    <End Role="Team" Type="BodekassenDB.Store.TeamSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Season">
+        <PropertyRef Name="Team_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SeasonMatch">
+    <End Role="Season" Type="BodekassenDB.Store.SeasonSet" Multiplicity="1" />
+    <End Role="Match" Type="BodekassenDB.Store.MatchSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Season">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Match">
+        <PropertyRef Name="SeasonId1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserTeam">
+    <End Role="User" Type="BodekassenDB.Store.UserSet" Multiplicity="1" />
+    <End Role="Team" Type="BodekassenDB.Store.TeamSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Team">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PlayerMatch_Player">
     <End Role="Player" Type="BodekassenDB.Store.PlayerSet" Multiplicity="1" />
     <End Role="PlayerMatch" Type="BodekassenDB.Store.PlayerMatch" Multiplicity="*" />
@@ -376,6 +449,20 @@
             <End Role="Match" EntitySet="MatchSet" />
             <End Role="Vote" EntitySet="VoteSet" />
           </AssociationSet>
+          <EntitySet Name="SeasonSet" EntityType="BodekassenDB.Season" />
+          <AssociationSet Name="SeasonTeam" Association="BodekassenDB.SeasonTeam">
+            <End Role="Season" EntitySet="SeasonSet" />
+            <End Role="Team" EntitySet="TeamSet" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonMatch" Association="BodekassenDB.SeasonMatch">
+            <End Role="Season" EntitySet="SeasonSet" />
+            <End Role="Match" EntitySet="MatchSet" />
+          </AssociationSet>
+          <EntitySet Name="UserSet" EntityType="BodekassenDB.User" />
+          <AssociationSet Name="UserTeam" Association="BodekassenDB.UserTeam">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Team" EntitySet="TeamSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Team">
           <Key>
@@ -383,15 +470,18 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" />
-          <Property Name="FineAmount" Type="Int32" Nullable="false" />
-          <Property Name="FineDepositedAmount" Type="Int32" Nullable="false" />
-          <Property Name="CasesOfBeer" Type="Int32" Nullable="false" />
+          <Property Name="FineTotal" Type="Int32" Nullable="false" />
+          <Property Name="FineDeposited" Type="Int32" Nullable="false" />
+          <Property Name="CasesOfBeerTotal" Type="Int32" Nullable="false" />
           <Property Name="CasesOfBeerDeposited" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FineTypes" Relationship="BodekassenDB.TeamFineType" FromRole="Team" ToRole="FineType" />
           <NavigationProperty Name="Matches" Relationship="BodekassenDB.TeamMatch" FromRole="Team" ToRole="Match" />
           <NavigationProperty Name="Players" Relationship="BodekassenDB.TeamPlayer" FromRole="Team" ToRole="Player" />
+          <NavigationProperty Name="Seasons" Relationship="BodekassenDB.SeasonTeam" FromRole="Team" ToRole="Season" />
+          <Property Name="CurrentSeasonId" Type="Int32" Nullable="false" />
+          <Property Name="ConnectionCode" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="BodekassenDB.UserTeam" FromRole="Team" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -399,9 +489,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="FineAmount" Type="Int32" Nullable="false" />
-          <Property Name="FineDepositedAmount" Type="Int32" Nullable="false" />
-          <Property Name="CasesOfBeer" Type="Int32" Nullable="false" />
+          <Property Name="FineTotal" Type="Int32" Nullable="false" />
+          <Property Name="FineDeposited" Type="Int32" Nullable="false" />
+          <Property Name="CasesOfBeerTotal" Type="Int32" Nullable="false" />
           <Property Name="CasesOfBeerDepostited" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Matches" Relationship="BodekassenDB.PlayerMatch" FromRole="Player" ToRole="Match" />
           <NavigationProperty Name="Goals" Relationship="BodekassenDB.PlayerGoal" FromRole="Player" ToRole="Goal" />
@@ -410,6 +500,7 @@
           <Property Name="TeamId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Fines" Relationship="BodekassenDB.PlayerFine" FromRole="Player" ToRole="Fine" />
           <NavigationProperty Name="Votes" Relationship="BodekassenDB.PlayerVote" FromRole="Player" ToRole="Vote" />
+          <Property Name="SeasonId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="FineType">
           <Key>
@@ -417,7 +508,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="DefaultAmount" Type="Int32" Nullable="true" />
+          <Property Name="DefaultPrice" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Fines" Relationship="BodekassenDB.FineFineType" FromRole="FineType" ToRole="Fine" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="IsCaseOfBeer" Type="Boolean" Nullable="false" />
@@ -431,7 +522,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
-          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FineType" Relationship="BodekassenDB.FineFineType" FromRole="Fine" ToRole="FineType" />
           <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerFine" FromRole="Fine" ToRole="Player" />
           <Property Name="PlayerId" Type="Int32" Nullable="false" />
@@ -456,6 +547,9 @@
           <NavigationProperty Name="Team" Relationship="BodekassenDB.TeamMatch" FromRole="Match" ToRole="Team" />
           <Property Name="TeamId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Votes" Relationship="BodekassenDB.MatchVote" FromRole="Match" ToRole="Vote" />
+          <Property Name="SeasonId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Season" Relationship="BodekassenDB.SeasonMatch" FromRole="Match" ToRole="Season" />
+          <Property Name="SeasonId1" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Goal">
           <Key>
@@ -515,6 +609,7 @@
           <NavigationProperty Name="Match" Relationship="BodekassenDB.MatchMOTM" FromRole="MOTM" ToRole="Match" />
           <NavigationProperty Name="Player" Relationship="BodekassenDB.PlayerMOTM" FromRole="MOTM" ToRole="Player" />
           <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="MatchId" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Vote">
           <Key>
@@ -602,6 +697,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Team" Relationship="BodekassenDB.SeasonTeam" FromRole="Season" ToRole="Team" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Matches" Relationship="BodekassenDB.SeasonMatch" FromRole="Season" ToRole="Match" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="SeasonTeam">
+          <End Type="BodekassenDB.Season" Role="Season" Multiplicity="*" />
+          <End Type="BodekassenDB.Team" Role="Team" Multiplicity="1" />
+        </Association>
+        <Association Name="SeasonMatch">
+          <End Type="BodekassenDB.Season" Role="Season" Multiplicity="1" />
+          <End Type="BodekassenDB.Match" Role="Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="SeasonId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" />
+          <Property Name="LastName" Type="String" Nullable="false" />
+          <Property Name="FacebookId" Type="String" Nullable="false" />
+          <NavigationProperty Name="Teams" Relationship="BodekassenDB.UserTeam" FromRole="User" ToRole="Team" />
+        </EntityType>
+        <Association Name="UserTeam">
+          <End Type="BodekassenDB.User" Role="User" Multiplicity="1" />
+          <End Type="BodekassenDB.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -613,12 +756,13 @@
         <MappingFragment StoreEntitySet="TeamSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
-          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
-          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="FineTotal" ColumnName="FineTotal" />
+          <ScalarProperty Name="FineDeposited" ColumnName="FineDeposited" />
+          <ScalarProperty Name="CasesOfBeerTotal" ColumnName="CasesOfBeerTotal" />
           <ScalarProperty Name="CasesOfBeerDeposited" ColumnName="CasesOfBeerDeposited" />
+          <ScalarProperty Name="CurrentSeasonId" ColumnName="CurrentSeasonId" />
+          <ScalarProperty Name="ConnectionCode" ColumnName="ConnectionCode" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -627,11 +771,12 @@
         <MappingFragment StoreEntitySet="PlayerSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="FineAmount" ColumnName="FineAmount" />
-          <ScalarProperty Name="FineDepositedAmount" ColumnName="FineDepositedAmount" />
-          <ScalarProperty Name="CasesOfBeer" ColumnName="CasesOfBeer" />
+          <ScalarProperty Name="FineTotal" ColumnName="FineTotal" />
+          <ScalarProperty Name="FineDeposited" ColumnName="FineDeposited" />
+          <ScalarProperty Name="CasesOfBeerTotal" ColumnName="CasesOfBeerTotal" />
           <ScalarProperty Name="CasesOfBeerDepostited" ColumnName="CasesOfBeerDepostited" />
           <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -640,7 +785,7 @@
         <MappingFragment StoreEntitySet="FineTypeSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="DefaultAmount" ColumnName="DefaultAmount" />
+          <ScalarProperty Name="DefaultPrice" ColumnName="DefaultPrice" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="IsCaseOfBeer" ColumnName="IsCaseOfBeer" />
           <ScalarProperty Name="IsDeposit" ColumnName="IsDeposit" />
@@ -653,7 +798,7 @@
         <MappingFragment StoreEntitySet="FineSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -668,6 +813,8 @@
           <ScalarProperty Name="IsHomeMatch" ColumnName="IsHomeMatch" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
+          <ScalarProperty Name="SeasonId1" ColumnName="SeasonId1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -685,6 +832,7 @@
         <MappingFragment StoreEntitySet="MOTMSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -694,6 +842,25 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
           <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeasonSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.Season)">
+        <MappingFragment StoreEntitySet="SeasonSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BodekassenDB.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FacebookId" ColumnName="FacebookId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -718,6 +885,14 @@
         <ScalarProperty Name="Id" ColumnName="MOTM_Id" />
       </EndProperty>
       <EndProperty Name="Match">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SeasonTeam" TypeName="BodekassenDB.SeasonTeam" StoreEntitySet="SeasonSet">
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Id" ColumnName="Team_Id" />
+      </EndProperty>
+      <EndProperty Name="Season">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

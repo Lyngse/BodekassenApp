@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/18/2016 20:32:31
--- Generated from EDMX file: C:\Users\Søren\Desktop\Projekter\Bodekassen\Bodekassen\DB\BodekassenDB.edmx
+-- Date Created: 09/21/2017 17:17:49
+-- Generated from EDMX file: C:\Users\Søren\Desktop\Projekter\BodekassenApp\Bodekassen\Bodekassen\DB\BodekassenDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -41,9 +41,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlayerMOTM]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MOTMSet] DROP CONSTRAINT [FK_PlayerMOTM];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MOTMVote]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[VoteSet] DROP CONSTRAINT [FK_MOTMVote];
-GO
 IF OBJECT_ID(N'[dbo].[FK_TeamMatch]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MatchSet] DROP CONSTRAINT [FK_TeamMatch];
 GO
@@ -55,6 +52,18 @@ IF OBJECT_ID(N'[dbo].[FK_PlayerFine]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlayerVote]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[VoteSet] DROP CONSTRAINT [FK_PlayerVote];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MatchVote]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VoteSet] DROP CONSTRAINT [FK_MatchVote];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SeasonTeam]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SeasonSet] DROP CONSTRAINT [FK_SeasonTeam];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SeasonMatch]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[MatchSet] DROP CONSTRAINT [FK_SeasonMatch];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserTeam]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TeamSet] DROP CONSTRAINT [FK_UserTeam];
 GO
 
 -- --------------------------------------------------
@@ -85,6 +94,12 @@ GO
 IF OBJECT_ID(N'[dbo].[VoteSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[VoteSet];
 GO
+IF OBJECT_ID(N'[dbo].[SeasonSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SeasonSet];
+GO
+IF OBJECT_ID(N'[dbo].[UserSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserSet];
+GO
 IF OBJECT_ID(N'[dbo].[PlayerMatch]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PlayerMatch];
 GO
@@ -97,12 +112,13 @@ GO
 CREATE TABLE [dbo].[TeamSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [Email] nvarchar(max)  NOT NULL,
-    [Password] nvarchar(max)  NOT NULL,
-    [FineAmount] int  NOT NULL,
-    [FineDepositedAmount] int  NOT NULL,
-    [CasesOfBeer] int  NOT NULL,
-    [CasesOfBeerDeposited] int  NOT NULL
+    [FineTotal] int  NOT NULL,
+    [FineDeposited] int  NOT NULL,
+    [CasesOfBeerTotal] int  NOT NULL,
+    [CasesOfBeerDeposited] int  NOT NULL,
+    [CurrentSeasonId] int  NOT NULL,
+    [ConnectionCode] nvarchar(max)  NOT NULL,
+    [UserId] int  NOT NULL
 );
 GO
 
@@ -110,11 +126,12 @@ GO
 CREATE TABLE [dbo].[PlayerSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [FineAmount] int  NOT NULL,
-    [FineDepositedAmount] int  NOT NULL,
-    [CasesOfBeer] int  NOT NULL,
+    [FineTotal] int  NOT NULL,
+    [FineDeposited] int  NOT NULL,
+    [CasesOfBeerTotal] int  NOT NULL,
     [CasesOfBeerDepostited] int  NOT NULL,
-    [TeamId] int  NOT NULL
+    [TeamId] int  NOT NULL,
+    [SeasonId] int  NOT NULL
 );
 GO
 
@@ -122,7 +139,7 @@ GO
 CREATE TABLE [dbo].[FineTypeSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [DefaultAmount] int  NULL,
+    [DefaultPrice] int  NULL,
     [IsDeleted] bit  NOT NULL,
     [IsCaseOfBeer] bit  NOT NULL,
     [IsDeposit] bit  NOT NULL,
@@ -134,7 +151,7 @@ GO
 CREATE TABLE [dbo].[FineSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
-    [Amount] int  NOT NULL,
+    [Price] int  NOT NULL,
     [PlayerId] int  NOT NULL,
     [FineType_Id] int  NOT NULL
 );
@@ -149,6 +166,8 @@ CREATE TABLE [dbo].[MatchSet] (
     [IsHomeMatch] bit  NOT NULL,
     [Date] datetime  NOT NULL,
     [TeamId] int  NOT NULL,
+    [SeasonId] int  NOT NULL,
+    [SeasonId1] int  NOT NULL,
     [MOTM_Id] int  NOT NULL
 );
 GO
@@ -164,7 +183,8 @@ GO
 -- Creating table 'MOTMSet'
 CREATE TABLE [dbo].[MOTMSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [PlayerId] int  NOT NULL
+    [PlayerId] int  NOT NULL,
+    [MatchId] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -173,6 +193,24 @@ CREATE TABLE [dbo].[VoteSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [PlayerId] int  NOT NULL,
     [MatchId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SeasonSet'
+CREATE TABLE [dbo].[SeasonSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TeamId] int  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Team_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'UserSet'
+CREATE TABLE [dbo].[UserSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [FirstName] nvarchar(max)  NOT NULL,
+    [LastName] nvarchar(max)  NOT NULL,
+    [FacebookId] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -232,6 +270,18 @@ GO
 -- Creating primary key on [Id] in table 'VoteSet'
 ALTER TABLE [dbo].[VoteSet]
 ADD CONSTRAINT [PK_VoteSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SeasonSet'
+ALTER TABLE [dbo].[SeasonSet]
+ADD CONSTRAINT [PK_SeasonSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserSet'
+ALTER TABLE [dbo].[UserSet]
+ADD CONSTRAINT [PK_UserSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -432,6 +482,51 @@ GO
 CREATE INDEX [IX_FK_MatchVote]
 ON [dbo].[VoteSet]
     ([MatchId]);
+GO
+
+-- Creating foreign key on [Team_Id] in table 'SeasonSet'
+ALTER TABLE [dbo].[SeasonSet]
+ADD CONSTRAINT [FK_SeasonTeam]
+    FOREIGN KEY ([Team_Id])
+    REFERENCES [dbo].[TeamSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SeasonTeam'
+CREATE INDEX [IX_FK_SeasonTeam]
+ON [dbo].[SeasonSet]
+    ([Team_Id]);
+GO
+
+-- Creating foreign key on [SeasonId1] in table 'MatchSet'
+ALTER TABLE [dbo].[MatchSet]
+ADD CONSTRAINT [FK_SeasonMatch]
+    FOREIGN KEY ([SeasonId1])
+    REFERENCES [dbo].[SeasonSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SeasonMatch'
+CREATE INDEX [IX_FK_SeasonMatch]
+ON [dbo].[MatchSet]
+    ([SeasonId1]);
+GO
+
+-- Creating foreign key on [UserId] in table 'TeamSet'
+ALTER TABLE [dbo].[TeamSet]
+ADD CONSTRAINT [FK_UserTeam]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[UserSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserTeam'
+CREATE INDEX [IX_FK_UserTeam]
+ON [dbo].[TeamSet]
+    ([UserId]);
 GO
 
 -- --------------------------------------------------

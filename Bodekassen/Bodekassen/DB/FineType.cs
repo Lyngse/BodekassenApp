@@ -22,7 +22,7 @@ namespace Bodekassen.DB
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> DefaultAmount { get; set; }
+        public Nullable<int> DefaultPrice { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsCaseOfBeer { get; set; }
         public bool IsDeposit { get; set; }
