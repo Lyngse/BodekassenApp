@@ -1,0 +1,28 @@
+.sidenav-content {
+    min-width: 250px;
+    padding: 16px;}
+    .sidenav-content p {
+        font-size: 20px;
+        color: #333;
+        margin: 5px 0;}
+    .sidenav-content a {
+        color: #333;
+        font-size: 16px;
+        margin: 5px;
+        display: block;
+        text-decoration: none;}
+        .sidenav-content a:focus,
+        .sidenav-content a:visited,
+        .sidenav-content a:active {
+            text-decoration: none;
+            color: #333;
+            outline: none;}
+        .sidenav-content a:hover {
+            color: #4CAF50;
+            text-decoration: none;}
+
+.divider {
+    height:1px;
+    background:#eee;
+    border-bottom:1px solid #eee;
+}

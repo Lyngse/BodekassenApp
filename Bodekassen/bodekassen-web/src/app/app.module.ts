@@ -8,7 +8,10 @@ import { FacebookModule } from 'ngx-facebook';
 
 import {
   MdButtonModule,
-  MdCheckboxModule} from '@angular/material';
+  MdCheckboxModule,
+  MdToolbarModule,
+  MdSidenavModule,
+  MdMenuModule} from '@angular/material';
 
 import { ApiService } from './services/api.service';
 import { PublicApiService } from './services/publicApi.service';
@@ -40,7 +43,10 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     FacebookModule.forRoot(),
-    MdButtonModule
+    MdButtonModule,
+    MdSidenavModule,
+    MdToolbarModule,
+    MdMenuModule
   ],
   providers: [FacebookService, ApiService, UtilService, PublicApiService],
   bootstrap: [AppComponent]

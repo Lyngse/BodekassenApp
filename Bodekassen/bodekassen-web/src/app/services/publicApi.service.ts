@@ -26,7 +26,7 @@ export class PublicApiService {
     fb.init(initParams);
   }
 
-  updateUser(): Promise<any>{
+  /*updateUser(): Promise<any>{
     return this.fb.getLoginStatus()
       .then((res) => {
         if(res.authResponse)
@@ -97,7 +97,7 @@ export class PublicApiService {
       .toPromise()
       .then(res => {this.user = res.json(); return res.json()})
       .catch(this.handleError)
-  }
+  }*/
 
   private handleError(error: any): Promise<any>{
         console.error('An error occurred', error); // for demo purposes only

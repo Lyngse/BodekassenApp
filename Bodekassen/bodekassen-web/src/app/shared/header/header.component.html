@@ -1,3 +1,28 @@
-<p>
-  header works!
-</p>
+<md-sidenav-container fullscreen class="example-container">
+  <md-sidenav #sidenav class="example-sidenav">
+    <div class="sidenav-content">
+      <p>Menu punkter</p>
+      <div class="divider"></div>
+      <a href="">Link 1</a>
+      <a href="">Link 2</a>
+      <a href="">Link 3</a>
+      <a href="">Link 4</a>
+    </div>
+  </md-sidenav>
+
+  <md-toolbar (window:resize)="onResize($event)">
+    <div *ngIf="showBurgerMenu" class="example-sidenav-content">
+      <button type="button" md-button (click)="sidenav.open()">
+        Open sidenav
+      </button>
+    </div>
+    <div *ngIf="!showBurgerMenu" class="menu-content">
+      <button md-button [mdMenuTriggerFor]="menu">Menu</button>
+      <md-menu #menu="mdMenu" [overlapTrigger]="false">
+        <button md-menu-item>Item 1</button>
+        <button md-menu-item>Item 2</button>
+      </md-menu>
+    </div>
+  </md-toolbar>
+
+</md-sidenav-container>
